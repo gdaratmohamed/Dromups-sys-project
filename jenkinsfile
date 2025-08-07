@@ -1,11 +1,54 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World'
+        agent any
+        
+        environment {
+            DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
+            GITHUB_CREDENTIALS = credentials('github-credentials')
+            DOCKER_REPOSITORY = 'gdaratmohamed73@gmail.com'
+            PROJECT_NAME = 'Dromups-sys-project'
+        }
+        
+        triggers {
+            githubPush()
+        }
+        
+        stages {
+            stage('Checkout') {
+                steps {
+                    cleanWs()
+                    checkout scm
+                }
+            }
+            
+            stage('Build Docker Image') {
+                steps {
+                    script {
+                        env.VERSION = sh(script: "echo \$(date +%Y%m%d)-\$(git rev-parse --short HEAD)", returnStdout: true).trim()
+                        
+                        sh """
+                            docker build --no-cache -t ${DOCKER_REPOSITORY}/${PROJECT_NAME}:${VERSION} \
+                            --platform="linux/amd64" .
+                        """
+                    }
+                }
+            }
+            
+            stage('Push to DockerHub') {
+                steps {
+                    script {
+                        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                        sh "docker push ${DOCKER_REPOSITORY}/${PROJECT_NAME}:${VERSION}"
+                    }
+                }
+            }
+            
+          
+        }
+        
+        post {
+            always {
+                sh 'docker logout'
+                cleanWs()
             }
         }
     }
-}
