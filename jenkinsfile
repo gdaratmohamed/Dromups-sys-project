@@ -4,7 +4,7 @@ pipeline {
         environment {
             DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
             GITHUB_CREDENTIALS = credentials('github-credentials')
-            DOCKER_REPOSITORY = 'gdaratmohamed73@gmail.com'
+            DOCKER_REPOSITORY = 'gdaratmohamed/dromups-sys-projectt'
             PROJECT_NAME = 'Dromups-sys-project'
         }
         
