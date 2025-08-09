@@ -1,14 +1,13 @@
 pipeline {
-        agent any
-        
-        environment {
-            DOCKERHUB_CREDENTIALS = credentials('Dockerhub-credentials')
-            GITHUB_CREDENTIALS = credentials('github-credentials')
-            DOCKER_REPOSITORY = 'gdaratmohamed/dromups-sys-project'
-            PROJECT_NAME = 'Dromups-sys-project'
-        }
-        
-        triggers {
+    agent any
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('Dockerhub-credentials')
+        GITHUB_CREDENTIALS = credentials('github-credentials')
+        DOCKER_IMAGE_FRONTEND = 'gdaratmohamed/front-image'
+    }
+
+      triggers {
             githubPush()
         }
         
@@ -19,36 +18,18 @@ pipeline {
                     checkout scm
                 }
             }
-            
-            stage('Build Docker Image') {
-                steps {
-                    script {
-                        env.VERSION = sh(script: "echo \$(date +%Y%m%d)-\$(git rev-parse --short HEAD)", returnStdout: true).trim()
-                        
-                        sh """
-                            docker build --no-cache -t ${DOCKER_REPOSITORY}/${PROJECT_NAME}:${VERSION} \
-                            --platform="linux/amd64" .
-                        """
-                    }
-                }
+
+        stage('Build Frontend') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE_FRONTEND:latest ./frontend'
             }
-            
-            stage('Push to DockerHub') {
-                steps {
-                    script {
-                        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                        sh "docker push ${DOCKER_REPOSITORY}/${PROJECT_NAME}:${VERSION}"
-                    }
-                }
-            }
-            
-          
         }
-        
-        post {
-            always {
-                sh 'docker logout'
-                cleanWs()
+
+        stage('Push Images') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh 'docker push $DOCKER_IMAGE_FRONTEND:latest'
             }
         }
     }
+}
