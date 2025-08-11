@@ -20,19 +20,21 @@ pipeline {
                 }
             }
 
-
-            stage('tests'){
-                steps { 
-
-                 echo "Running frontend tests..."
-                 sh """
-                 cd ../frontend
-                 npm install
-                 npm test -- --watchAll=false
-                 """
+        stage('tests') {
+            steps {
+               script {
+                  try {
+                    sh """
+                    cd frontend
+                    npm install
+                    npm test -- --watchAll=false
+                    """
+                  } catch(e) {
+                     error("Les tests ont échoué")
+                    }
                 }
-                
             }
+        }
 
         stage('Build Frontend') {
             steps {
