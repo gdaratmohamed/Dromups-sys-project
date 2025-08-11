@@ -21,6 +21,12 @@ pipeline {
             }
 
         stage('tests') {
+              agent {
+                docker {
+                    image 'node:16-alpine'
+                    args '-u root'
+                }
+             }
             steps {
                script {
                   try {
