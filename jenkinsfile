@@ -25,7 +25,7 @@ pipeline {
                script {
                   try {
                     sh """
-                    cd frontend
+                    cd ./frontend
                     npm install
                     npm test -- --watchAll=false
                     """
