@@ -7,6 +7,6 @@
 | ------------------ | -------------------- |
 | CI/CD              | Jenkins + Docker     |
 | Container Registry | Docker Hub           |
-| Kubernetes Deploy  | Helm + k3s + ArgoCD  |
+| Kubernetes Deploy  | Helm + k8s + ArgoCD  |
 | Monitoring         | Prometheus + Grafana |
-| GitOps             | GitHub + ArgoCD      ||
+| GitOps             | GitHub + ArgoCD      |
