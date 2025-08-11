@@ -22,18 +22,18 @@ pipeline {
 
 
             stage('tests'){
-                      steps { 
+                steps { 
 
-                echo "Running frontend tests..."
-                sh """
-                cd ../frontend
-                npm install
-                npm test -- --watchAll=false
-                """
-            }
+                 echo "Running frontend tests..."
+                 sh """
+                 cd ../frontend
+                 npm install
+                 npm test -- --watchAll=false
+                 """
+                }
                 
             }
-            
+
         stage('Build Frontend') {
             steps {
                 sh 'docker build -t $DOCKER_IMAGE_FRONTEND:latest ./frontend'
