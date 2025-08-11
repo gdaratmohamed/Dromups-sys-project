@@ -26,12 +26,12 @@ pipeline {
                   try {
                     sh """
                     cd ./frontend
-                    npm install
+                    yarn install
                     npm test -- --watchAll=false
                     """
                   } catch(e) {
-                     error("Les tests ont échoué")
-                    }
+                                error("Les tests ont échoué")
+                             }
                 }
             }
         }
