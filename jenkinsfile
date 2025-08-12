@@ -29,9 +29,7 @@ pipeline {
                 }
             }
             steps {
-                dir('frontend') {
-                  sh '../Jenkins/scripts/test.sh'
-                }
+                  sh './Jenkins/scripts/test.sh'
             }
         }
 
