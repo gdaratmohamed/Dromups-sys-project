@@ -29,6 +29,7 @@ pipeline {
                 }
             }
             steps {
+                  sh 'ls -l Jenkins/scripts/test.sh'
                   sh './Jenkins/scripts/test.sh'
             }
         }
