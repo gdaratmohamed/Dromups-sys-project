@@ -30,6 +30,7 @@ pipeline {
             }
             steps {
                   sh 'ls -l Jenkins/scripts/test.sh'
+                  sh 'chmod +x Jenkins/scripts/test.sh'
                   sh './Jenkins/scripts/test.sh'
             }
         }
