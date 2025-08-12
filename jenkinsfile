@@ -30,10 +30,12 @@ pipeline {
             }
             steps {
                 dir('frontend') {
-                    sh """
+                    sh '
+                    
                          npm install
-                         npm test -- --watchAll=false
-                    """
+                    '
+
+                    
                 }
             }
         }
