@@ -31,7 +31,6 @@ pipeline {
             steps {
                 dir('frontend') {
                     sh """
-                         cd ./frontend
                          npm ci
                          npm test -- --watchAll=false
                     """
