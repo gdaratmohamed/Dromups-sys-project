@@ -37,12 +37,6 @@ pipeline {
             }
         }
 
-        stage('Build Backend') {
-            steps {
-                // Build with both latest and build number tags
-                sh 'docker build -t $DOCKER_IMAGE_BACKEND:latest -t $DOCKER_IMAGE_BACKEND:$IMAGE_TAG ./ai-model'
-            }
-        }
 
         stage('Build Frontend') {
             steps {
@@ -50,6 +44,14 @@ pipeline {
                 sh 'docker build -t $DOCKER_IMAGE_FRONTEND:latest -t $DOCKER_IMAGE_FRONTEND:$IMAGE_TAG ./frontend'
             }
         }
+
+        stage('Build Backend') {
+            steps {
+                // Build with both latest and build number tags
+                sh 'docker build -t $DOCKER_IMAGE_BACKEND:latest -t $DOCKER_IMAGE_BACKEND:$IMAGE_TAG ./ai-model'
+            }
+        }
+
 
         stage('Push Images') {
             steps {
