@@ -37,7 +37,6 @@ pipeline {
             }
         }
 
-
         stage('Build Frontend') {
             steps {
                 // Build with both latest and build number tags
@@ -52,7 +51,6 @@ pipeline {
             }
         }
 
-
         stage('Push Images') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
@@ -63,9 +61,12 @@ pipeline {
                 sh 'docker push $DOCKER_IMAGE_BACKEND:$IMAGE_TAG'
             }
         }
-        stage('Trigger ManifestUpdate'){
-            echo "triggering updatemanifestjob"
-            build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+        
+        stage('Trigger ManifestUpdate') {
+            steps {
+                echo "Triggering updatemanifest job"
+                build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+            }
         }
     }
 }
