@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   // Appel API au chargement du composant
   useEffect(() => {
-    axios.get("http://localhost:8000/")
+    axios.get("http://backend-service:8080/")
       .then(response => console.log("Réponse du backend :", response.data))
       .catch(error => console.error("Erreur API :", error));
   }, []); // Le tableau vide [] signifie que cela s'exécute une fois au montage
