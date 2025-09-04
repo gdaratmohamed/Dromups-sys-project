@@ -25,7 +25,7 @@ async def root():
 # Route GET simple pour tester la connexion
 @app.get("/")
 async def root():
-    return {"message": "Connexion au backend réussie !"}
+    return {"message": "Connexion  backend réussie !"}
 
 @app.websocket("/ws/detections")
 async def websocket_endpoint(websocket: WebSocket):
